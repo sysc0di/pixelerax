@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 const locales = ['en', 'tr'];
 const defaultLocale = 'tr';
 
-export function middleware(req) {
+export function proxy(req) {
   const { pathname } = req.nextUrl;
 
   // Statik dosyaları ve API isteklerini atla
