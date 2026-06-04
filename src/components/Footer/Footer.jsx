@@ -9,8 +9,17 @@ import ThemeSwticher from '../Navbar/ThemeSwticher'
 
 export default function Footer() {
   const t = useTranslations('footer');
-  const locale = typeof window !== "undefined" ? localStorage.getItem("locale") : null;
-  console.log(locale)
+   const getLocaleFromCookie = () => {
+       if (typeof window === "undefined") return 'en'; // SSR sırasında hata vermemesi için varsayılan 'en'
+   
+       const cookies = document.cookie.split('; ');
+       const localeCookie = cookies.find(row => row.startsWith('NEXT_LOCALE='));
+   
+       // Çerez varsa [1] indisindeki değeri döndürür, yoksa 'en' döndürür
+       return localeCookie ? localeCookie.split('=')[1] : 'en';
+     };
+   
+     const locale = getLocaleFromCookie();
   return (
     <footer className={styles.footer}>
       <div className={styles.content}>

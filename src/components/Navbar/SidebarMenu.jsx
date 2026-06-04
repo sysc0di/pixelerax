@@ -1,25 +1,26 @@
 "use client";
 import styles from './sidebarmenu.module.css';
-import {  Instagram, Github } from 'lucide-react';
+import { Instagram, Github } from 'lucide-react';
 import ThemeSwticher from './ThemeSwticher';
 import LanguageSwitcher from './LanguageSwitcher';
 import { useTranslations, useLocale } from 'next-intl';
 import Link from 'next/link';
 
 export default function SidebarMenu({ open, onClose }) {
-    const t = useTranslations('nav');
-    const getLocaleFromCookie = () => {
-    if (typeof window === "undefined") return null;
-
-    // Tüm çerezleri al ve parçala
-    const cookies = document.cookie.split('; ');
-    const localeCookie = cookies.find(row => row.startsWith('NEXT_LOCALE='));
-
-    // Eğer çerez bulunduysa değerini döndür, yoksa null
-    return localeCookie ? localeCookie.split('=')[1] : null;
-  };
-
-  const locale = getLocaleFromCookie();
+     const t = useTranslations('nav');
+   
+     // Çerez okuma fonksiyonu düzeltildi
+     const getLocaleFromCookie = () => {
+       if (typeof window === "undefined") return 'en'; // SSR sırasında hata vermemesi için varsayılan 'en'
+   
+       const cookies = document.cookie.split('; ');
+       const localeCookie = cookies.find(row => row.startsWith('NEXT_LOCALE='));
+   
+       // Çerez varsa [1] indisindeki değeri döndürür, yoksa 'en' döndürür
+       return localeCookie ? localeCookie.split('=')[1] : 'en';
+     };
+   
+     const locale = getLocaleFromCookie();
     const links = [
         { href: `/${locale}`, label: locale === 'tr' ? 'Ana Sayfa' : 'Home' },
         { href: `/${locale}/aboutus`, label: t('about') },
@@ -59,7 +60,7 @@ export default function SidebarMenu({ open, onClose }) {
                         </a>
                     ))}
                     <LanguageSwitcher />
-                    <ThemeSwticher/>
+                    <ThemeSwticher />
                 </div>
             </nav>
 
